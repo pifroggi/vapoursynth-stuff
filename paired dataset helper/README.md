@@ -1,30 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Paired Dataset Helper
 A script to sync and align LQ videos with their HQ counterparts to create paired video or image datasets.  
 Optionally match colors, filter unwanted frames, add degredations, crop and resize.  
@@ -46,7 +19,7 @@ This is a full vapoursynth script ready to run, use as a template, or starting p
 
 ## Usage
 Run the script like you would run a normal vapoursynth script. While running, folders for the LR and HR images will automatically be created at the set paths and images will be saved there.
-The output video has the IQA scores and diff_threshold values overlayed on top and can be used to finetune them. Alternatively the overlayed values can be previewed with [vsedit](https://github.com/YomikoR/VapourSynth-Editor) or [vs-preview](https://github.com/Jaded-Encoding-Thaumaturgy/vs-preview).
+The output video has the IQA scores and diff_threshold values overlayed on top and can be used to finetune them. Alternatively the overlayed values can be previewed with [vsedit](https://github.com/YomikoR/VapourSynth-Editor) or [vs-preview](https://github.com/Jaded-Encoding-Thaumaturgy/vs-preview).  
 Example with vspipe and ffmpeg:
 
     vspipe -c y4m paired-dataset-helper.vpy - | ffmpeg -i - -c:v libx264 -crf 20 -preset veryfast "preview.mkv"
