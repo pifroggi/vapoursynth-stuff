@@ -191,7 +191,7 @@ HR = core.std.SelectEvery(HR, cycle=save_interval, offsets=0)
 
 
 #############################################
-#SPACIAL ALIGNMENT
+#SPATIAL ALIGNMENT
 #############################################
 
 #resize HR to LR
