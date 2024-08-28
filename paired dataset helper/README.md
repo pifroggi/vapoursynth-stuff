@@ -7,7 +7,7 @@ This is a full vapoursynth script ready to run, use as a template, or starting p
 * `pip install numpy`
 * `pip install opencv-python`
 * [vs_colorfix](https://github.com/pifroggi/vs_colorfix) (optional, only for color_match and align)
-* [vs_align](https://github.com/pifroggi/vs_align) (optional, only for align and sync)
+* [vs_align](https://github.com/pifroggi/vs_align) (optional, only for spatial_align and temporal_align)
 * [vs_liif](https://github.com/pifroggi/vs_liif) (optional, only for liif_resize)
 * [vs_iqa](https://github.com/pifroggi/vs_iqa) (optional, only for HR_iqa/LR_iqa)
 * [tbilateral](https://github.com/dubhater/vapoursynth-tbilateral) (optional, only to create banding degredation)
