@@ -8,8 +8,8 @@ This is a full vapoursynth script ready to run, use as a template, or starting p
 * `pip install opencv-python`
 * [vs_colorfix](https://github.com/pifroggi/vs_colorfix)
 * [vs_align](https://github.com/pifroggi/vs_align)
-* [vs_liif](https://github.com/pifroggi/vs_liif)
 * [vs_iqa](https://github.com/pifroggi/vs_iqa)
+* [vs_liif](https://github.com/pifroggi/vs_liif)
 * [tbilateral](https://github.com/dubhater/vapoursynth-tbilateral) (optional, only to create banding degredation)
 
 ## Setup
