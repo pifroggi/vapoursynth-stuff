@@ -205,15 +205,21 @@ if spatial_align:
 
 #resize LR to HR/scale_factor
 if resize_HR:
-    if liif_resize:
-        HR = vs_liif.resize(HR, width=LR.width*scale_factor, height=LR.height*scale_factor, device="cuda")
-    else:
-        HR = core.resize.Bicubic(HR, width=LR.width*scale_factor, height=LR.height*scale_factor)
+    target_width = LR.width * scale_factor
+    target_height = LR.height * scale_factor
+    if HR.width != target_width or HR.height != target_height:
+        if liif_resize:
+            HR = vs_liif.resize(HR, width=target_width, height=target_height, device="cuda")
+        else:
+            HR = core.resize.Bicubic(HR, width=target_width, height=target_height)
 else:
-    if liif_resize:
-        LR = vs_liif.resize(LR, width=HR.width/scale_factor, height=HR.height/scale_factor, device="cuda")
-    else:
-        LR = core.resize.Bicubic(LR, width=HR.width/scale_factor, height=HR.height/scale_factor)
+    target_width = HR.width / scale_factor
+    target_height = HR.height / scale_factor
+    if LR.width != target_width or LR.height != target_height:
+        if liif_resize:
+            LR = vs_liif.resize(LR, width=target_width, height=target_height, device="cuda")
+        else:
+            LR = core.resize.Bicubic(LR, width=target_width, height=target_height)
 
 
 
