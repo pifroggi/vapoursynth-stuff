@@ -178,7 +178,7 @@ if LR_fpsnum is not None:
 
 #temporal alignment
 if temporal_align:
-    LR = vs_align.temporal(LR_preprocess, HR_preprocess, LR, tr=30, fallback=fallback_clip, thresh=diff_threshold, precision=3, clip_num=LR_fpsnum, clip_den=LR_fpsden, ref_num=HR_fpsnum, ref_den=HR_fpsden, device="cuda", debug=False)
+    LR = vs_align.temporal(LR_preprocess, HR_preprocess, LR, tr=temporal_radius, fallback=fallback_clip, thresh=diff_threshold, precision=3, clip_num=LR_fpsnum, clip_den=LR_fpsden, ref_num=HR_fpsnum, ref_den=HR_fpsden, device="cuda", debug=False)
 
 if LR_fpsnum is not None:
     LR = core.resize.Bilinear(LR, format = vs.RGBS, matrix_in_s="709", range_in_s='full', range_s='full')
@@ -381,7 +381,7 @@ def save_to_disk(LR, HR, prop_name, save_folder, lr_subfolder, hr_subfolder, sav
 
     return core.std.FrameEval(LR, eval=_get_frame_prop, prop_src=[LR])
 
-LR = save_to_disk(LR, HR, "save_to_file", output_path, LR_subfolder, HR_subfolder, save=save_dataset)
+LR = save_to_disk(LR, HR, "save_to_file", os.path.abspath(output_path), LR_subfolder, HR_subfolder, save=save_dataset)
 
 
 
