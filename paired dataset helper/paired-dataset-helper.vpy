@@ -200,9 +200,9 @@ HR_for_align = core.resize.Bicubic(HR, width=LR.width, height=LR.height)
 
 #align, color fix, and align again
 if spatial_align:
-    LR = vs_align.spatial(LR, HR_for_align, precision=3, iterations=1, blur_strength=10, device="cuda")
+    LR = vs_align.spatial(LR, HR_for_align, precision=3, iterations=1, blur_strength=0, device="cuda")
     HR_for_align = vs_colorfix.wavelet(HR_for_align, LR, device="cuda")
-    LR = vs_align.spatial(LR, HR_for_align, precision=4, iterations=1, blur_strength=10, device="cuda")
+    LR = vs_align.spatial(LR, HR_for_align, precision=4, iterations=1, blur_strength=0, device="cuda")
 
 #resize LR to HR/scale_factor
 if resize_HR:
