@@ -184,8 +184,9 @@ if LR_fpsnum is not None:
     LR = core.resize.Bilinear(LR, format = vs.RGBS, matrix_in_s="709", range_in_s='full', range_s='full')
 
 #set save interval
-LR = core.std.SelectEvery(LR, cycle=save_interval, offsets=0)
-HR = core.std.SelectEvery(HR, cycle=save_interval, offsets=0)
+if save_interval > 1:
+    LR = core.std.SelectEvery(LR, cycle=save_interval, offsets=0)
+    HR = core.std.SelectEvery(HR, cycle=save_interval, offsets=0)
   
 
 
