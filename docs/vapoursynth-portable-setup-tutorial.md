@@ -36,7 +36,7 @@ Encoders are required to write video files. FFmpeg is the most commonly used opt
 
 ## 4. Install Vapoursynth Editor and Previewer
 1. Download the latest `VapourSynth.Editor-r19-mod-X.X.zip` and `VC_redist.x64.exe` from [GitHub](https://github.com/YomikoR/VapourSynth-Editor).
-2. Install `VC_redist.x64.exe` and unzip all files from the zip into the `vapoursynth-portable` folder.
+2. Install `VC_redist.x64.exe`, then unzip all files from the zip into the `vapoursynth-portable` folder.
 3. That's it! You can now delete the zip file and run the editor using the `vsedit.exe`.
 
 > [!TIP]
@@ -45,7 +45,7 @@ Encoders are required to write video files. FFmpeg is the most commonly used opt
 <br />
 
 ## 5. Your first Vapoursynth Project
-Every Vapoursynth script needs a few things. Shown here in this simple example. Save it as either a `.vpy` or `.py` file and try running it with the Vapoursynth Editor.
+Every Vapoursynth script needs a few things. Shown here in this simple example. Save it as either a `.vpy` or `.py` file and try previewing it with the Vapoursynth Editor.
 
 ```python
 
@@ -106,15 +106,36 @@ If you are looking for specific plugins, or just want to see what is available, 
 
 <br />
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## 7. Install Additional Vapoursynth Scripts
 Installing Vapoursynth scripts is similar to plugin installation.  
 If you are looking for specific scripts, or just want to see what is available, the [Vapoursynth Database (VSDB)](https://vsdb.top/) makes it very easy. Not everything is listed there, but a lot!
 1. Download the script. You can download directly from VSDB, but it's recommended to check the GitHub link for potentially more up-to-date versions. On GitHub, you can find download links on the right in the "Releases" section. If no "Releases" section exists, click the green "Code" button and select "Download Zip".
-3. If the script comes in a zip file, unzip it.  
-If it's a single `.py` file, place it directly in the `vapoursynth-portable/vs-scripts` folder.  
-If it's a folder containing multiple `.py` files or subfolders, place the entire folder in the `vapoursynth-portable/vs-scripts` folder.
-4. Scripts often depend on plugins, python packages, or other scripts. Check the GitHub README or download page for details.
-5. That's it! You can now use the script in Vapoursynth.
+3. If the script comes in a zip file, unzip it.
+4. If it's a single `.py` file, place it directly in the `vapoursynth-portable/vs-scripts` folder.  
+   If it's a folder containing multiple `.py` files or subfolders, place the entire folder in the `vapoursynth-portable/vs-scripts` folder.
+5. Scripts often depend on plugins, python packages, or other scripts. Check the GitHub README or download page for details.
+6. That's it! You can now use the script in Vapoursynth.
 
 > [!TIP]
 > Scripts often have additional dependencies. These are usually detailed in the GitHub README or on the download page.
@@ -127,14 +148,14 @@ If it's a folder containing multiple `.py` files or subfolders, place the entire
 <br />
 
 ## 8. Install Additional Python Packages for Vapoursynth
-Some scripts require additional Python packages to function. As an example we will use the numpy package, which is often needed.
+Some scripts require additional Python packages to work. As an example we will use the numpy package, which is often needed.
 1. Open your vapoursynth-portable folder.
 2. Click on the address bar at the top (where the folder path is shown), type `cmd`, and press Enter. This will open the console at the location of the vapoursynth-portable folder.
 3. Since we are using a portable Python, we need to adjust the common pip commands you will find on the internet a little.  
 Common: `pip install numpy`  
 Adjusted: `python -m pip install numpy`  
 By adding "python -m" in front, we point to the python version inside the vapoursynth-portable folder.
-5. That's it! You can now use the python package in Vapoursynth.
+4. That's it! You can now use the python package in Vapoursynth.
 
 > [!TIP]
 > Here is an additional example with pytorch:  
