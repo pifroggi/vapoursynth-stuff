@@ -106,7 +106,7 @@ If you are looking for specific plugins, or just want to see what is available, 
 
 <br />
 
-## 6. Install Additional Vapoursynth Scripts
+## 7. Install Additional Vapoursynth Scripts
 Installing Vapoursynth scripts is similar to plugin installation.  
 If you are looking for specific scripts, or just want to see what is available, the [Vapoursynth Database (VSDB)](https://vsdb.top/) makes it very easy. Not everything is listed there, but a lot!
 1. Download the script. You can download directly from VSDB, but it's recommended to check the GitHub link for potentially more up-to-date versions. On GitHub, you can find download links on the right in the "Releases" section. If no "Releases" section exists, click the green "Code" button and select "Download Zip".
@@ -126,7 +126,7 @@ If it's a folder containing multiple `.py` files or subfolders, place the entire
 
 <br />
 
-## 7. Install Additional Python Packages for Vapoursynth
+## 8. Install Additional Python Packages for Vapoursynth
 Some scripts require additional Python packages to function. As an example we will use the numpy package, which is often needed.
 1. Open your vapoursynth-portable folder.
 2. Click on the address bar at the top (where the folder path is shown), type `cmd`, and press Enter. This will open the console at the location of the vapoursynth-portable folder.
