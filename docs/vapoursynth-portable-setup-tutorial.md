@@ -66,11 +66,11 @@ clip = core.bs.VideoSource(source="path/to/your_video.mp4")
 
 ### 3. filter the clip
 # you can now filter the clip in various ways.
-# as an example we will first resize it to 1280x720, add a blur, then do a format conversion.
+# as an example we will do a format conversion, resize it to 1280x720, and add a blur.
 # for more information on each filter, check the official documentation: http://www.vapoursynth.com/doc/functions/video/resize.html
 
 # it is good common pratice to convert the clip to 16bit first.
-# doing filtering in higher bit depth reduces banding and other artifacts.
+# doing filtering in bit depths higher than 8 reduces banding and other artifacts.
 # this converts the input clip from YUV420P8 to YUV420P16.
 # YUV is the format, 420 the chroma subsampling, P is progressive, and 16 is the bit depth.
 clip = core.resize.Bilinear(clip, format=vs.YUV420P16)
@@ -83,7 +83,10 @@ clip = core.std.Boxblur(clip, hradius=10, hpasses=3, vradius=10, vpasses=3)
 
 
 ### output the video clip ###
-# specify that this final clip is what the script will output
+# first convert it to the output format we want.
+clip = core.resize.Bilinear(clip, format=vs.YUV420P8)
+
+# specify that the clip called "clip" is what the script will output
 clip.set_output()
 ```
 
