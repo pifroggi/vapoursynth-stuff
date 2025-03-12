@@ -1,6 +1,6 @@
 
 #############################################
-#IMPORTS AND PLUGINS
+# IMPORTS AND PLUGINS
 #############################################
 
 import sys
@@ -22,87 +22,88 @@ core = vs.core
 
 
 #############################################
-#SETTINGS AND PATHS
+# SETTINGS AND PATHS
 #############################################
 
-#output paths
-save_dataset   = True #if the dataset should be saved to disk, or not
+# Output paths
+save_dataset   = True # If the dataset should be saved to disk, or not.
 output_path    = "path/to/save_folder"
 LR_subfolder   = "LR"
 HR_subfolder   = "HR"
-save_interval  = 10 #how many frame to save. 1 saves every frame, 10 saves every 10th frame
+save_interval  = 10 # How many frames to save. 1 saves every frame, 10 saves every 10th frame.
 
-#input paths
+# Input paths
 source_path_LR = "path/to/LR_video.mkv"
 source_path_HR = "path/to/HR_video.mkv"
 
-#input color matrix
-LR_matrix_in_s = "709" #709 for new sources like bluray and web, 470bg for older sources like dvd
-HR_matrix_in_s = "709" #709 for new sources like bluray and web, 470bg for older sources like dvd
+# Input color matrix
+LR_matrix_in_s = "709" # 709 for new sources like bluray and web, 470bg for older sources like dvd.
+HR_matrix_in_s = "709" # 709 for new sources like bluray and web, 470bg for older sources like dvd.
 
-#input frame rate
-LR_fpsnum      = None  #numerator   - only set if frame rates differ as it will slow down processing
-LR_fpsden      = None  #denominator - only set if frame rates differ as it will slow down processing
-HR_fpsnum      = None  #numerator   - only set if frame rates differ as it will slow down processing
-HR_fpsden      = None  #denominator - only set if frame rates differ as it will slow down processing
+# Input frame rate (only needed if they differ)
+LR_fpsnum      = None  # Numerator for LR video.
+LR_fpsden      = None  # Denominator for LR video.
+HR_fpsnum      = None  # Numerator for HR video.
+HR_fpsden      = None  # Denominator for HR video.
 
-#scale
-scale_factor   = 2     #how many time is HR larger than LR
-resize_HR      = True  #If HR is not exactly a multiple of LR, True resizes HR to get to desired scale factor, False resizes LR to get to desired scale factor
-liif_resize    = False #uses liif AI resizing to get to the desired scale factor. This avoids resizing artifacts like blur or halos.
+# Scale
+scale_factor   = 2     # How many times is HR larger than LR.
+resize_HR      = True  # If HR is not exactly a multiple of LR, True resizes HR to get to the desired scale factor, False resizes LR to get to desired scale factor.
+liif_resize    = False # Uses liif AI resizing to get to the desired scale factor.
 
-#crop - use this to roughly align the clips, crop black borders, or to focus on a smaller area of the frames
-LR_crop_left   = 10
-LR_crop_right  = 10
+# Crop (Use this to make the visible area of both sources match as close as possible and to crop black borders. Else the temporal alignment will not work correctly.)
+LR_crop_left   = 0
+LR_crop_right  = 0
 LR_crop_top    = 0
 LR_crop_bottom = 0
 
-HR_crop_left   = 24
-HR_crop_right  = 36
+HR_crop_left   = 0
+HR_crop_right  = 0
 HR_crop_top    = 0
-HR_crop_bottom = 20
+HR_crop_bottom = 0
 
-#trims
-LR_trim        = 0     #cuts this number of frames at the beginning
-HR_trim        = 0     #cuts this number of frames at the beginning
+# Trims
+LR_trim        = 0     # Cuts this number of frames at the beginning.
+HR_trim        = 0     # Cuts this number of frames at the beginning.
 
-#temporal alignment settings
-temporal_align      = True       #whether to sync both clips in time
-temporal_radius     = 20         #number of frames surrounding the current HR frame to look for a matching LR frame 
-diff_threshold      = 0.4        #threshold at which LR and HR differ so much, they should not be saved. higher means pairs can be very different, lower means pairs should be less different. range 0-1
+# Temporal alignment settings
+temporal_align      = True       # Whether to synchronize both clips. First frame needs to match, which can be done with the trims above.
+temporal_radius     = 20         # Determines how many frames to search forwards and backwards for a match. Higher is slower.
+diff_threshold      = 0.7        # Threshold at which LR and HR differ so much, they should not be saved. Higher means pairs can be very different, lower means pairs should be less different. Range 0-1.
+batch_size          = None       # Controls VRAM usage for temporal alignment. A value lower than tr will reduce VRAM usage, but is a bit slower.
 
-#spatial alignment settings
-spatial_align       = True       #whether to align the individual frames in space by shifting and warping
+# Spatial alignment settings
+spatial_align       = True       # Whether to align the individual frames in space by shifting and warping.
 
-#color match settings
-color_match         = True       #colors will be transfered from HR to LR (HR stays the same, LR changes colors)
-change_HR           = True       #transfers colors from LR to HR instead (LR stays the same, HR changes colors)
+# Color match settings
+color_match         = True       # Colors will be transfered from HR to LR (HR stays the same, LR changes colors).
+change_HR           = True       # Transfers colors from LR to HR instead (LR stays the same, HR changes colors).
 
-#iqa settings
-HR_iqa              = False      #uses image quality assessment to filter out low quality frames
-HR_iqa_metric       = 'hyperiqa' #more metrics can be found in the "NR Method" table here: https://github.com/chaofengc/IQA-PyTorch/blob/main/docs/ModelCard.md
-HR_iqa_threshold    = 0.2        #if quality is lower/higher than this value, image will not be saved; range 0-1 for hyperiqa, can be different with others
-HR_iqa_mode         = 'lower'    #lower means frames below threshold will be filtered out (only best are saved), higher means frames above threshold will be filtered out (only worst are saved)
+# Iqa settings
+HR_iqa              = False      # Uses image quality assessment to filter out low quality frames.
+HR_iqa_metric       = 'hyperiqa' # More metrics can be found in the "NR Method" table here: https://github.com/chaofengc/IQA-PyTorch/blob/main/docs/ModelCard.md
+HR_iqa_threshold    = 0.2        # If quality is lower/higher than this value, image will not be saved. Range 0-1 for hyperiqa, can be different with others.
+HR_iqa_mode         = 'lower'    # Lower means frames below threshold will be filtered out (only best are saved), Higher means frames above threshold will be filtered out (only worst are saved).
 LR_iqa              = False
-LR_iqa_metric       = 'hyperiqa' #more metrics can be found in the "NR Method" table here: https://github.com/chaofengc/IQA-PyTorch/blob/main/docs/ModelCard.md
-LR_iqa_threshold    = 0.7        #if quality is lower/higher than this value, image will not be saved; range 0-1 for hyperiqa, can be different with others
-LR_iqa_mode         = 'higher'   #lower means frames below threshold will be filtered out (only best are saved), higher means frames above threshold will be filtered out (only worst are saved)
+LR_iqa_metric       = 'hyperiqa' # More metrics can be found in the "NR Method" table here: https://github.com/chaofengc/IQA-PyTorch/blob/main/docs/ModelCard.md
+LR_iqa_threshold    = 0.7        # If quality is lower/higher than this value, image will not be saved. Range 0-1 for hyperiqa, can be different with others.
+LR_iqa_mode         = 'higher'   # Lower means frames below threshold will be filtered out (only best are saved), higher means frames above threshold will be filtered out (only worst are saved).
 
-#additional processing
-chroma_bleed        = False      #this will blur the chroma channels to create bleed
-bleed_radius        = (1, 20)    #range of bleed radius
-bleed_intensity     = (10, 100)  #range of bleed intensity; possible values 0-100
+# Additional processing
+chroma_bleed        = False      # This will blur the chroma channels to create bleed.
+bleed_radius        = (1, 20)    # Range of bleed radius.
+bleed_intensity     = (10, 100)  # Range of bleed intensity. Possible values 0-100.
 
-chroma_shift        = False      #this will shift the chroma channels down; use flip and rotate to change direction
-shift_amount        = (0.1, 3)   #range of shift amount; one decimal place possible
-shift_intensity     = (100, 100) #range of bleed intensity; possible values 0-100
-flip_vertical       = (0, 1)     #changes the direction of the chroma shift vertically, 0 and 1 possible
-rotate_90           = (0, 1)     #changes the direction of the chroma shift horizontally, 0 and 1 possible
+chroma_shift        = False      # This will shift the chroma channels down; use flip and rotate to change direction.
+shift_amount        = (0.1, 3)   # Range of shift amount. One decimal place possible.
+shift_intensity     = (100, 100) # Range of bleed intensity. possible values 0-100.
+flip_vertical       = (0, 1)     # Changes the direction of the chroma shift vertically, 0 and 1 possible.
+rotate_90           = (0, 1)     # Changes the direction of the chroma shift horizontally, 0 and 1 possible.
 
-banding             = False      #this will create banding or low bit depth artifacts
-banding_stregth     = (0, 16)    #range of depth reduction, values 0 to 127
+banding             = False      # This will create banding or low bit depth artifacts.
+banding_stregth     = (0, 16)    # Range of depth reduction, values 0 to 127.
 
-#final crop - not required, but recommended because the alignment sometimes creates artifacts near the edges.
+# Final crop (not required, but recommended because the alignment sometimes creates artifacts near the edges)
 final_crop_left   = 10
 final_crop_right  = 10
 final_crop_top    = 10
@@ -112,24 +113,24 @@ final_crop_bottom = 10
 
 
 #############################################
-#PREPROCESS
+# PREPROCESS
 #############################################
 
-#load sources
+# load sources
 LR = core.bs.VideoSource(source=source_path_LR)
 HR = core.bs.VideoSource(source=source_path_HR)
 
-#set frameprop for saving
+# set frameprop for saving
 LR = core.std.SetFrameProp(LR, prop="save_to_file", data=["true"])
 HR = core.std.SetFrameProp(HR, prop="save_to_file", data=["true"])
 
-#time offsets
+# time offsets
 LR = core.std.Trim(LR, first=LR_trim)
 HR = core.std.Trim(HR, first=HR_trim)
 
-#crop and resize
-LR = core.resize.Bilinear(LR, format = vs.RGBS, matrix_in_s=LR_matrix_in_s, range_in_s='limited', range_s='full')
-HR = core.resize.Bilinear(HR, format = vs.RGBS, matrix_in_s=HR_matrix_in_s, range_in_s='limited', range_s='full')
+# crop and resize
+LR = core.resize.Bilinear(LR, format = vs.RGBS, matrix_in_s=LR_matrix_in_s, range_s='full')
+HR = core.resize.Bilinear(HR, format = vs.RGBS, matrix_in_s=HR_matrix_in_s, range_s='full')
 
 LR = core.std.Crop(LR, left=LR_crop_left, right=LR_crop_right, top=LR_crop_top, bottom=LR_crop_bottom)
 HR = core.std.Crop(HR, left=HR_crop_left, right=HR_crop_right, top=HR_crop_top, bottom=HR_crop_bottom)
@@ -138,52 +139,43 @@ HR = core.std.Crop(HR, left=HR_crop_left, right=HR_crop_right, top=HR_crop_top, 
 
 
 #############################################
-#DENOISE
+# DENOISE
 #############################################
 
 #if HR_denoise:
 #    HR = core.resize.Bilinear(HR, format = vs.YUV444P16, matrix_s="709", range_in_s='full', range_s='full')
-#    #space to denoise HR clip
+#    # placeholder space to denoise HR clip
 #    HR = core.resize.Bilinear(HR, format = vs.RGBS, matrix_in_s=709, range_in_s='full', range_s='full')
 
 #if LR_denoise:
 #    LR = core.resize.Bilinear(LR, format = vs.YUV444P16, matrix_s="709", range_in_s='full', range_s='full')
-#    #space to denoise LR clip
+#    # placeholder space to denoise LR clip
 #    LR = core.resize.Bilinear(LR, format = vs.RGBS, matrix_in_s=709, range_in_s='full', range_s='full')
 
 
 
 
 #############################################
-#TEMPORAL ALIGNMENT
+# TEMPORAL ALIGNMENT
 #############################################
 
-black = core.std.BlankClip(LR, format=vs.RGB24, color=[0, 0, 0])
+black = core.std.BlankClip(LR, length=HR.num_frames, format=vs.RGB24, color=[0, 0, 0])
 fallback_clip = core.resize.Point(black, format=LR.format, width=LR.width, height=LR.height, range_in_s='full', range_s='full')
 fallback_clip = core.std.SetFrameProp(fallback_clip, prop="save_to_file", data=["false"])
 
-#preprocessing LR for temporal alignment, crop, resize
-LR_preprocess = core.resize.Bilinear(LR, format = vs.YUV444P16, matrix_s="709", width=360, height=270, range_in_s='full', range_s='full')
+# preprocessing LR for temporal alignment, crop, resize
+LR_preprocess = core.resize.Bilinear(LR, format = vs.YUV444P16, matrix_s="709", width=480, height=360, range_in_s='full', range_s='full')
 LR_preprocess = core.std.Crop(LR_preprocess, left=2, right=2, top=2, bottom=2)
 
-#preprocessing HR for temporal alignment, crop, resize
-HR_preprocess = core.resize.Bilinear(HR, format = vs.YUV444P16, matrix_s="709", width=360, height=270, range_in_s='full', range_s='full')
+# preprocessing HR for temporal alignment, crop, resize
+HR_preprocess = core.resize.Bilinear(HR, format = vs.YUV444P16, matrix_s="709", width=480, height=360, range_in_s='full', range_s='full')
 HR_preprocess = core.std.Crop(HR_preprocess, left=2, right=2, top=2, bottom=2)
 
-
-#if frame rates are different, YUV input is required
-if LR_fpsnum is not None:
-    LR = core.resize.Bilinear(LR, format = vs.YUV444P16, matrix_s="709", range_in_s='full', range_s='full')
-    fallback_clip = core.resize.Bilinear(fallback_clip, format = vs.YUV444P16, matrix_s="709", range_in_s='full', range_s='full')
-
-#temporal alignment
+# temporal alignment
 if temporal_align:
-    LR = vs_align.temporal(LR_preprocess, HR_preprocess, LR, tr=temporal_radius, fallback=fallback_clip, thresh=diff_threshold, precision=3, clip_num=LR_fpsnum, clip_den=LR_fpsden, ref_num=HR_fpsnum, ref_den=HR_fpsden, device="cuda", debug=False)
+    LR = vs_align.temporal(LR_preprocess, HR_preprocess, LR, tr=temporal_radius, fallback=fallback_clip, thresh=diff_threshold, precision=3, clip_num=LR_fpsnum, clip_den=LR_fpsden, ref_num=HR_fpsnum, ref_den=HR_fpsden, batch_size=batch_size, device="cuda", debug=False)
 
-if LR_fpsnum is not None:
-    LR = core.resize.Bilinear(LR, format = vs.RGBS, matrix_in_s="709", range_in_s='full', range_s='full')
-
-#set save interval
+# set save interval
 if save_interval > 1:
     LR = core.std.SelectEvery(LR, cycle=save_interval, offsets=0)
     HR = core.std.SelectEvery(HR, cycle=save_interval, offsets=0)
@@ -192,19 +184,17 @@ if save_interval > 1:
 
 
 #############################################
-#SPATIAL ALIGNMENT
+# SPATIAL ALIGNMENT
 #############################################
 
-#resize HR to LR
+# resize HR to LR's size
 HR_for_align = core.resize.Bicubic(HR, width=LR.width, height=LR.height)
 
-#align, color fix, and align again
+# spatial alignment
 if spatial_align:
-    LR = vs_align.spatial(LR, HR_for_align, precision=3, iterations=1, blur_strength=0, device="cuda")
-    HR_for_align = vs_colorfix.wavelet(HR_for_align, LR, device="cuda")
-    LR = vs_align.spatial(LR, HR_for_align, precision=4, iterations=1, blur_strength=0, device="cuda")
+    LR = vs_align.spatial(LR, HR_for_align, precision=3, wide_search=True, lq_input=True, device="cuda")
 
-#resize LR to HR/scale_factor
+# resize LR to HR/scale_factor
 if resize_HR:
     target_width = LR.width * scale_factor
     target_height = LR.height * scale_factor
@@ -225,7 +215,7 @@ else:
 
 
 #############################################
-#COLOR MATCHING
+# COLOR MATCHING
 #############################################
 
 if color_match:
@@ -238,7 +228,7 @@ if color_match:
 
 
 #############################################
-#IQA
+# IQA
 #############################################
 
 if HR_iqa:
@@ -253,12 +243,12 @@ if LR_iqa:
 
 
 #############################################
-#ADDITIONAL DEGREDATIONS
+# ADDITIONAL DEGREDATIONS
 #############################################
 
 LR = core.resize.Bilinear(LR, format = vs.YUV444P16, matrix_s="709", range_in_s='full', range_s='full')
 
-#chroma bleed
+# chroma bleed
 def chroma_bleed_func(n, clip):
     rand_bleed_radius = random.randint(*bleed_radius)
     rand_bleed_intensity = random.randint(*bleed_intensity)
@@ -270,7 +260,7 @@ def chroma_bleed_func(n, clip):
 if chroma_bleed:
     LR = core.std.FrameEval(LR, functools.partial(chroma_bleed_func, clip=LR))
 
-#chroma shift
+# chroma shift
 def chroma_shift_func(n, clip):
     rand_shift_amount = random.randint(int(shift_amount[0] * 10), int(shift_amount[1] * 10))
     rand_flip_vertical = random.randint(*flip_vertical)
@@ -291,7 +281,7 @@ def chroma_shift_func(n, clip):
 if chroma_shift:
     LR = core.std.FrameEval(LR, functools.partial(chroma_shift_func, clip=LR))
 
-#banding
+# banding
 def banding_func(n, clip):
     rand_banding_stregth = random.randint(*banding_stregth)
     if rand_banding_stregth == 0:
@@ -307,13 +297,13 @@ def banding_func(n, clip):
 if banding:
     LR = core.std.FrameEval(LR, functools.partial(banding_func, clip=LR))
 
-#put additional degredations here if needed
+# put additional degredations here if needed
 
 
 
 
 #############################################
-#WRITE DATASET TO DISK
+# WRITE DATASET TO DISK
 #############################################
 
 LR = core.std.Crop(LR, left=final_crop_left, right=final_crop_right, top=final_crop_top, bottom=final_crop_bottom)
@@ -330,13 +320,13 @@ def write_frame(frame: vs.VideoFrame, filename: str) -> None:
 
 def save_to_disk(LR, HR, prop_name, save_folder, lr_subfolder, hr_subfolder, save=True):
     if save:
-        #use the specified subfolder names for LR and HR
+        # use the specified subfolder names for LR and HR
         LR_folder = os.path.join(save_folder, lr_subfolder)
         HR_folder = os.path.join(save_folder, hr_subfolder)
         os.makedirs(LR_folder, exist_ok=True)
         os.makedirs(HR_folder, exist_ok=True)
         
-        #check if folders are empty
+        # check if folders are empty
         lr_folder_empty = not os.listdir(LR_folder)
         hr_folder_empty = not os.listdir(HR_folder)
     
@@ -354,7 +344,7 @@ def save_to_disk(LR, HR, prop_name, save_folder, lr_subfolder, hr_subfolder, sav
         hr_iqa_score = hr_frame.props.get('vs_iqa_score', None)
         
         
-        #check if both frame props exist and are "true", then save the current frames of both clips
+        # check if both frame props exist and are "true", then save the current frames of both clips
         if (save and 
             lr_prop_value is not None and lr_prop_value == "true" and
             hr_prop_value is not None and hr_prop_value == "true"):
@@ -367,7 +357,7 @@ def save_to_disk(LR, HR, prop_name, save_folder, lr_subfolder, hr_subfolder, sav
             if hr_folder_empty:
                 write_frame(hr_frame, hr_filename)
         
-        #overlay frame props on the LR frame
+        # overlay frame props on the LR frame
         overlay_text = (
             f"Images will only be saved to\ndisk if BOTH are true.\n"
             f"\n"
@@ -387,8 +377,8 @@ LR = save_to_disk(LR, HR, "save_to_file", os.path.abspath(output_path), LR_subfo
 
 
 #############################################
-#EXPORT
+# EXPORT
 #############################################
 
 LR = core.resize.Point(LR, format=vs.YUV420P8, matrix_s="709", range_in_s='full', range_s='limited')
-LR.set_output()
+LR.set_output(0)
