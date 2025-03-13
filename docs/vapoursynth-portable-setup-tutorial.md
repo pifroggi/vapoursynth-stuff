@@ -72,7 +72,7 @@ clip = core.bs.VideoSource(source="path/to/your_video.mp4")
 # it is good common pratice to convert the clip to 16bit first.
 # doing filtering in bit depths higher than 8 reduces banding and other artifacts.
 # this converts the input clip from YUV420P8 to YUV420P16.
-# YUV is the format, 420 the chroma subsampling, P is progressive, and 16 is the bit depth.
+# YUV is the format, 420 the chroma subsampling, and 16 is the bit depth.
 clip = core.resize.Bilinear(clip, format=vs.YUV420P16)
 
 # resize the clip to 1280x720
@@ -82,11 +82,11 @@ clip = core.resize.Bilinear(clip, width=1280, height=720)
 clip = core.std.Boxblur(clip, hradius=10, hpasses=3, vradius=10, vpasses=3)
 
 
-### output the video clip ###
-# first convert it to the output format we want.
+### 4. output the video clip
+# first convert it to the output format we want
 clip = core.resize.Bilinear(clip, format=vs.YUV420P8)
 
-# specify that the clip called "clip" is what the script will output
+# and lastly specify that the clip called "clip" is what the script should output
 clip.set_output()
 ```
 
