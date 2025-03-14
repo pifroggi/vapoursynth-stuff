@@ -27,10 +27,12 @@ Encoders are required to write video files. FFmpeg is the most commonly used opt
  
 > [!TIP]
 > Example command to encode a Vapoursynth script. You must be in the same folder as your `vspipe.exe`:  
-> `vspipe -c y4m "example_script.vpy" - | ffmpeg -i - -c:v libx264 -crf 16 -preset slow "output.mkv"`
+> `vspipe -c y4m "example_script.vpy" - | ffmpeg -i - -c:v libx264 -crf 16 -preset slow "output.mkv"`  
+> __Warning:__ This command is for cmd and will not work in powershell.
 
 > [!TIP]
 > If you add `vspipe.exe` and `ffmpeg.exe` to your Windows PATH, you can use them from any directory.
+
 
 <br />
 
