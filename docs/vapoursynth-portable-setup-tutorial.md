@@ -3,6 +3,21 @@ A short Guide to install Vapoursynth Portable, as well as everything one needs t
 
 <br />
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## 1. Install Vapoursynth Portable
 1. Download the latest `Install-Portable-VapourSynth-RXX.ps1` from the [official Vapoursynth GitHub](https://github.com/vapoursynth/vapoursynth/releases).
 2. Place the file in the directory where you want your Vapoursynth Portable folder to be.
@@ -16,6 +31,9 @@ A short Guide to install Vapoursynth Portable, as well as everything one needs t
 Source plugins are required to read video files. Bestsource is the most commonly used option.
 1. Download the latest `BestSource-RX.7z` from the [official BestSource GitHub](https://github.com/vapoursynth/bestsource/releases).
 2. Unzip if needed and place the `.dll` file in your `vapoursynth-portable/vs-plugins` folder.
+
+> [!TIP]
+> To ensure exact frame perfect reading, an index will be automatically build for new video files. This may take a minute for very large files, but has to be done only once. No worries if nothing seems to happen at first or your previewer seems to freeze.
 
 <br />
 
@@ -32,7 +50,6 @@ Encoders are required to write video files. FFmpeg is the most commonly used opt
 
 > [!TIP]
 > If you add `vspipe.exe` and `ffmpeg.exe` to your Windows PATH, you can use them from any directory.
-
 
 <br />
 
