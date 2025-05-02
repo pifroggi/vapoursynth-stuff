@@ -190,6 +190,11 @@ By adding "python -m" in front, we point to the python version inside the vapour
 > common: `pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126`  
 > adjusted: `python -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126`
 
+> [!TIP]
+> Some people make their scripts installable as packages too. If you see this and would like to do that, adjust those commands too:  
+> common: `pip install git+https://github.com/pifroggi/vs_colorfix.git`  
+> adjusted: `python -m pip install git+https://github.com/pifroggi/vs_colorfix.git`
+
 <br />
 
 
