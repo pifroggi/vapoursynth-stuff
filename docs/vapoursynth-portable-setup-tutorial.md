@@ -189,3 +189,76 @@ By adding "python -m" in front, we point to the python version inside the vapour
 > Here is an additional example with pytorch:  
 > common: `pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126`  
 > adjusted: `python -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126`
+
+<br />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 9. Common Errors
+Some common issues when trying to use Vapoursynth.
+
+---
+
+__`Failed to initialize VSScript` when trying to encode a video using vspipe and ffmpeg.__  
+* __Explanation:__ The error can have many causes, but in this specific situation it may be that you are accidentaly using a command made for CMD in Powershell. Powershell does not support everything CMD does and sometimes needs different commands.  
+* __Solution:__ Try using CMD instead.
+
+---
+
+__`AttributeError: module 'vapoursynth' has no attribute 'get_core'` when trying to import or use a function from a Vapoursynth script.__  
+* __Explanation:__ You are likely using an old Vapoursynth script, which still uses 'vs.get_core()'. This was changed to 'vs.core' in newer Vapoursynth versions.
+* __Solution:__ Open the script in question and replace `vs.get_core()` with `vs.core`. The line is likely somewhere near the top.
+
+---
+
+__`Analyse: Function does not take argument(s) named _global` or `Analyse: Function does not take argument(s) named _lambda` when trying to use a function from a Vapoursynth script.__  
+* __Explanation:__ Some words like "global" are reserved in the Python language and can not be used as function arguments. In the past to circumvent this issue, an underscore was put in front of such arguments. But at some point this was changed to a trailing underscore like this: `global_`. Common accurances are when trying to use the `G41` script or older versions of the `havsfunc` script.  
+* __Solution:__ Open the script in question and replace all instances of `_global` with `global_`. Do the same with if it happens with other arguments like `_lambda`.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
