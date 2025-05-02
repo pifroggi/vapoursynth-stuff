@@ -236,8 +236,9 @@ __`Failed to initialize VSScript` when trying to encode a video using vspipe and
 ---
 
 __`AttributeError: module 'vapoursynth' has no attribute 'get_core'` when trying to import or use a function from a Vapoursynth script.__  
-* __Explanation:__ You are likely using an old Vapoursynth script, which still uses 'vs.get_core()'. This was changed to 'vs.core' in newer Vapoursynth versions.
-* __Solution:__ Open the script in question and replace `vs.get_core()` with `vs.core`. The line is likely somewhere near the top.
+
+* __Explanation:__ You are using an old Vapoursynth script, which still uses `vs.get_core()` to initialize the Vapoursynth core. This was changed to `vs.core` in newer versions.
+* __Solution:__ Open the script in question and replace `vs.get_core()` with `vs.core`. The line should be somewhere near the top and likely says `core = vs.get_core()` in full.
 
 ---
 
