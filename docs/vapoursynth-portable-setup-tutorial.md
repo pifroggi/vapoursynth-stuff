@@ -244,7 +244,7 @@ __`AttributeError: module 'vapoursynth' has no attribute 'get_core'` when trying
 
 __`Analyse: Function does not take argument(s) named _global` or `Analyse: Function does not take argument(s) named _lambda` when trying to use a function from a Vapoursynth script.__  
 * __Explanation:__ Some words like "global" are reserved in the Python language and can not be used as function arguments. In the past to circumvent this issue, an underscore was put in front of such arguments. But at some point this was changed to a trailing underscore like this: `global_`. Common accurances are when trying to use the `G41` script or older versions of the `havsfunc` script.  
-* __Solution:__ Open the script in question and replace all instances of `_global` with `global_`. Do the same with if it happens with other arguments like `_lambda`.
+* __Solution:__ Open the script in question and replace all instances of `_global` with `global_`. Do the same if it happens with other arguments like `_lambda`.
 
 
 
