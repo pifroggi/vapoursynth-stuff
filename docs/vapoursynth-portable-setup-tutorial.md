@@ -59,7 +59,21 @@ Encoders are required to write video files. FFmpeg is the most commonly used opt
 3. That's it! You can now delete the zip file and run the editor using the `vsedit.exe`.
 
 > [!TIP]
-> Press F5 in the editor to open or refresh the preview window. A working Vapoursynth script is required to open the preview.
+> Some nice functionality:
+> * Press `F5` in the editor to open or refresh the preview window. (A working Vapoursynth script is required to open the preview.)
+> * You can `right click` on the preview > `Save image` or `Copy to clipboard`
+> * You can `scroll` trough the frames if your mouse is on the frame counter or timeline
+> * `Middle mouse click` on preview changes the viewing mode between `native to your screen`, `zoom`, and `fill preview window`. Zoom factor and scaling algorithm is adjustable in the bottom right.
+> * Output clip properties are shown at the very bottom of the preview window. For more info on each individual frame, `right click` on the preview > `Toggle frame properties panel`
+> * If you set additional output clips like this, you can quickly compare them by `scrolling` on the bottom left `Index` dropdown:
+> ```python
+> clip_unfiltered.set_output(0)
+> clip_filtered.set_output(1)
+> clip_filtered_stronger.set_output(2)
+> ```
+
+
+
 
 <br />
 
