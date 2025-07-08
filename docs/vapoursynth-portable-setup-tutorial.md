@@ -250,8 +250,8 @@ __`Failed to initialize VSScript` when trying to encode a video using vspipe and
 ---
 
 __`SyntaxError: (unicode error) 'unicodeescape' codec can't decode bytes in position XX-XX: truncated \uXXXX escape` when trying to read a video file.__  
-* __Explanation:__ The file path is written using backslashes (\) and Python interprets them as escape characters.
-* __Solution:__ Prefix the path with r `r'C:\path\to\video.mp4'` or replace backslashes with normal slashes `C:/path/to/video.mp4'`
+* __Explanation:__ The file path is written using backslashes `\` and Python interprets them as escape characters.
+* __Solution:__ Prefix the path with r `r"C:\path\to\video.mp4"` or replace backslashes with normal slashes `C:/path/to/video.mp4'`
 
 ---
 
