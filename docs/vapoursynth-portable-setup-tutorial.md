@@ -111,7 +111,7 @@ clip = core.resize.Bilinear(clip, format=vs.YUV420P16)
 clip = core.resize.Bilinear(clip, width=1280, height=720)
 
 # add a simple box blur to the clip
-clip = core.std.Boxblur(clip, hradius=10, hpasses=3, vradius=10, vpasses=3)
+clip = core.std.BoxBlur(clip, hradius=10, hpasses=3, vradius=10, vpasses=3)
 
 # some filters require the input clip to be in RGB format. to convert a clip from YUV to RGB, a matrix coefficient is required.
 # old SD sources from DVD/VHS often use 470bg (also known as 601), while modern sources use 709.
@@ -249,6 +249,12 @@ __`Failed to initialize VSScript` when trying to encode a video using vspipe and
 
 ---
 
+__`SyntaxError: (unicode error) 'unicodeescape' codec can't decode bytes in position XX-XX: truncated \uXXXX escape` when trying to read a video file.__  
+* __Explanation:__ The file path is written using backslashes (\) and Python interprets them as escape characters.
+* __Solution:__ Prefix the path with r `r'C:\path\to\video.mp4'` or replace backslashes with normal slashes `C:/path/to/video.mp4'`
+
+---
+
 __`AttributeError: module 'vapoursynth' has no attribute 'get_core'` when trying to import or use a function from a Vapoursynth script.__  
 
 * __Explanation:__ You are using an old Vapoursynth script, which still uses `vs.get_core()` to initialize the Vapoursynth core. This was changed to `vs.core` in newer versions.
@@ -259,7 +265,6 @@ __`AttributeError: module 'vapoursynth' has no attribute 'get_core'` when trying
 __`Analyse: Function does not take argument(s) named _global` or `Analyse: Function does not take argument(s) named _lambda` when trying to use a function from a Vapoursynth script.__  
 * __Explanation:__ Some words like "global" are reserved in the Python language and can not be used as function arguments. In the past to circumvent this issue, an underscore was put in front of such arguments. But at some point this was changed to a trailing underscore like this: `global_`. Common accurances are when trying to use older versions of the `G41Fun` or `havsfunc` scripts.  
 * __Solution:__ Open the script in question and replace all instances of `_global` with `global_`. Do the same if it happens with other arguments like `_lambda`.
-
 
 
 
