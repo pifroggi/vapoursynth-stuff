@@ -67,9 +67,9 @@ Encoders are required to write video files. FFmpeg is the most commonly used opt
 > * Output clip properties are shown at the very bottom of the preview window. For more info on each individual frame, `right click` on the preview > `Toggle frame properties panel`
 > * If you set additional output clips like this, you can quickly compare them by `scrolling` on the bottom left `Index` dropdown:
 > ```python
-> clip_unfiltered.set_output(0)
-> clip_filtered.set_output(1)
-> clip_filtered_stronger.set_output(2)
+> clip.set_output(0)
+> clip_denoised.set_output(1)
+> clip_upscaled.set_output(2)
 > ```
 
 
@@ -206,8 +206,9 @@ By adding "python -m" in front, we point to the python version inside the vapour
 
 > [!TIP]
 > Some people make their scripts installable as packages too. If you see this and would like to do that, adjust those commands too:  
-> common: `pip install git+https://github.com/pifroggi/vs_colorfix.git`  
-> adjusted: `python -m pip install git+https://github.com/pifroggi/vs_colorfix.git`
+> common: `pip install -U git+https://github.com/pifroggi/vs_colorfix.git`  
+> adjusted: `python -m pip install -U git+https://github.com/pifroggi/vs_colorfix.git`  
+> Scripts installed this way will be located in `\Lib\site-packages` instead of your scripts folder. 
 
 <br />
 
@@ -251,7 +252,7 @@ __`Failed to initialize VSScript` when trying to encode a video using vspipe and
 
 __`SyntaxError: (unicode error) 'unicodeescape' codec can't decode bytes in position XX-XX: truncated \uXXXX escape` when trying to read a video file.__  
 * __Explanation:__ The file path is written using backslashes `\` and Python interprets them as escape characters.
-* __Solution:__ Prefix the path with r `r"C:\path\to\video.mp4"` or replace backslashes with normal slashes `"C:/path/to/video.mp4"`
+* __Solution:__ Prefix the path with r `r"C:\path\to\video.mp4"` or replace backslashes with normal slashes `"C:/path/to/video.mp4"`.
 
 ---
 
