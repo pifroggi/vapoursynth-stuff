@@ -16,9 +16,10 @@ A VapourSynth docker image with many AI related features and set up to work simi
 * X File Explorer *(type xfe to run)*
 * Source Plugins: BestSource, FFMS2, L-SMASH-Works
 * Various dependencies like: FFTW, Boost, OpenCV, libjpeg-turbo...
-* Everything with GPU support.
 * Plugins in the vs-plugins folder are autoloaded.
-* Scripts in the vs-scripts folder can be simply imported: `import havfunc`
+* Scripts in the vs-scripts folder can be simply imported like: `import havfunc`
+* Everything with GPU support
+* Optional GUI support
 
 <br />
 
