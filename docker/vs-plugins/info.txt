@@ -1,0 +1,1 @@
+Put VapourSynth plugins into this folder to load them automatically. They must be compiled for Linux.
