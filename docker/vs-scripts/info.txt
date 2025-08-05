@@ -1,0 +1,1 @@
+Put VapourSynth scripts into this folder for easy import.
