@@ -9,8 +9,7 @@ A short Guide to install VapourSynth Portable, as well as everything one needs t
 <br />
 
 ### [VapourSynth Docker Container](/docker)
-A VapourSynth docker image with many AI related features and set up to work similarly to a portable VapourSynth install.  
-Includes a setup guide.
+A VapourSynth docker image with many AI related features and set up to work similarly to a portable VapourSynth install. Includes a setup guide.
 
 <br />
 
