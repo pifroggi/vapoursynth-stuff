@@ -30,23 +30,23 @@ A VapourSynth docker image with many AI related features and set up to work simi
 * X File Explorer *(type xfe to run)*
 * Source Plugins: BestSource, FFMS2, L-SMASH-Works
 * Various dependencies like: FFTW, Boost, OpenCV, libjpeg-turbo...
-* Everything with GPU support
-* Plugins in the vs-plugins folder are autoloaded
-* Scripts in the vs-scripts folder can be imported directly e.g. `import havfunc`
+* Everything with GPU support.
+* Plugins in the vs-plugins folder are autoloaded.
+* Scripts in the vs-scripts folder can be simply imported: `import havfunc`
 
 <br />
 
 ## Requirements
 * [Docker](https://www.docker.com/)
+* [VcXsrv](https://sourceforge.net/projects/vcxsrv/) *(optional, only for GUI support)*
 * Nvidia GPU with up-to-date drivers
-* [VcXsrv](https://sourceforge.net/projects/vcxsrv/) *(optional, only for GUI support)*  
 
 <br />
 
 ## Setup
 1. Run [VcXsrv](https://sourceforge.net/projects/vcxsrv/) with the default settings *(optional, only for GUI support)*
 2. Download the `docker` folder from this GitHub repository
-3. Open CMD or Powershell in the `docker` folder
+3. Open CMD or Powershell in the `docker` folder/navigate into it
 4. Run the docker container
    * __Option 1:__ Download a prebuild image  
      About 15gb download size and 25gb on disk.  
@@ -83,12 +83,12 @@ The vs-scripts folder paths can be adjusted in configs/startup.sh
 Every time the docker container is run, the script in configs/startup.sh is executed. You can edit it to your needs. For example if you would like the VapourSynth Editor to start automatically, simply add a line that says `vsedit`.
 
 ### DPI settings and Cursor size
-DPI settings and cursor size can be adjusted for high resolution monitors. Defaults are for 1080p. For 4K I simply doubled all numbers.
-1. Change Windows scaling behavior
+DPI settings and cursor size can be adjusted for high resolution monitors.
+1. Change Windows scaling behavior for VcXsrv.
     * Find `vcxsrv.exe` likely in `C:\Program Files\VcXsrv`
     * Right-click > Properties > Compatibility > Change high DPI settings
     * Check Override high DPI scaling behavior and set to: Application
-2. Adjust DPI in Container
+2. Adjust settings. Defaults are for 1080p. For 4K I simply doubled all numbers.
     * In configs/startup.sh adjust:  
       `Xft.dpi: 96`  
       `Xcursor.size: 24`  
