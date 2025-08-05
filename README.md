@@ -1,11 +1,16 @@
 # VapourSynth Stuff
-Some of my VapourSynth filter scripts ready to run, use as a template, or starting point.  
-Currently this houses only one script and one guide.
+Various VapourSynth related stuff.  
 
 <br />
 
 ### [VapourSynth Portable Installation Tutorial for Windows](/docs/vapoursynth-portable-setup-tutorial.md)
 A short Guide to install VapourSynth Portable, as well as everything one needs to get started.
+
+<br />
+
+### [VapourSynth Docker Container](/docker)
+A VapourSynth docker image with many AI related features and set up to work similarly to a portable VapourSynth install.  
+Includes a setup guide.
 
 <br />
 
