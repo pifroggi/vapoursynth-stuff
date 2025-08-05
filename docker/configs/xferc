@@ -50,7 +50,7 @@ tiptime=10000
 scrollbarsize=15
 tippause=500
 save_win_pos=1
-screenres=200
+screenres=100
 file_tooltips=1
 
 [KEYBINDINGS]
