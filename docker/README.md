@@ -1,18 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # VapourSynth Docker Container
 A VapourSynth docker image with many AI related features and set up to work similarly to a portable VapourSynth install.
 
@@ -46,15 +32,16 @@ A VapourSynth docker image with many AI related features and set up to work simi
 ## Setup
 1. Run [VcXsrv](https://sourceforge.net/projects/vcxsrv/) with the default settings *(optional, only for GUI support)*
 2. Download the `docker` folder from this GitHub repository
-3. Open CMD or Powershell in the `docker` folder/navigate into it
+3. Open CMD or PowerShell in the `docker` folder/navigate into it
 4. Run the docker container
    * __Option 1:__ Download a prebuild image  
      About 15gb download size and 25gb on disk.  
-     When you run a docker container for the first time, it will be automatically downloaded. If you don't need GUI support, remove `-e DISPLAY=host.docker.internal:0.0`
+     When you run a docker container for the first time, it will be automatically downloaded.  
+     If you don't need GUI support, remove `-e DISPLAY=host.docker.internal:0.0`
        ```
        # CMD:
        docker run -e DISPLAY=host.docker.internal:0.0 --privileged --gpus all -it -v "%cd%:/workspace/vapoursynth" pifroggi/vapoursynth:2025_07_28
-       # Powershell:
+       # PowerShell:
        docker run -e DISPLAY=host.docker.internal:0.0 --privileged --gpus all -it -v "${PWD}:/workspace/vapoursynth" pifroggi/vapoursynth:2025_07_28
        ```
    * __Option 2:__ Build the image yourself  
@@ -66,7 +53,7 @@ A VapourSynth docker image with many AI related features and set up to work simi
        ```
        # CMD:
        docker run -e DISPLAY=host.docker.internal:0.0 --privileged --gpus all -it -v "%cd%:/workspace/vapoursynth" vapoursynth
-       # Powershell:
+       # PowerShell:
        docker run -e DISPLAY=host.docker.internal:0.0 --privileged --gpus all -it -v "${PWD}:/workspace/vapoursynth" vapoursynth
        ```
 
