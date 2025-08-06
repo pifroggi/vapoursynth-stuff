@@ -5,12 +5,13 @@ A VapourSynth docker image with many AI related features and set up to work simi
 <br />
 
 ## Features
-* VapourSynth
+* Ubuntu 24.04
 * Python 3.12
+* VapourSynth
 * FFmpeg 7
 * PyTorch
-* vs-mlrt
 * TensorRT
+* vs-mlrt
 * mmcv
 * VapourSynth Editor *(type vsedit to run)*
 * X File Explorer *(type xfe to run)*
@@ -18,8 +19,9 @@ A VapourSynth docker image with many AI related features and set up to work simi
 * Various dependencies like: FFTW, Boost, OpenCV, libjpeg-turbo...
 * Plugins in the vs-plugins folder are autoloaded.
 * Scripts in the vs-scripts folder can be simply imported like: `import havfunc`
-* Everything with GPU support
-* Optional GUI support
+* GPU support
+* optional GUI support
+* Customization Options
 
 <br />
 
@@ -60,7 +62,7 @@ A VapourSynth docker image with many AI related features and set up to work simi
 
 <br />
 
-## Configuration Options
+## Customization Options
 All VapourSynth Editor and X File Explorer settings are saved to the configs folder and not lost when the container restarts.
 
 ### Default Paths
