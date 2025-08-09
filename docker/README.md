@@ -35,7 +35,7 @@ A VapourSynth docker image with many AI related features and set up to work simi
 ## Setup
 1. Run [VcXsrv](https://sourceforge.net/projects/vcxsrv/) with the default settings *(optional, only for GUI support)*
 2. Download the `docker` folder from this GitHub repository
-3. Open CMD or PowerShell in the `docker` folder/navigate into it
+3. Open CMD or PowerShell in the `docker` folder or navigate into it
 4. Run the docker container
    * __Option 1:__ Download a prebuild image  
      About 15gb download size and 25gb on disk.  
@@ -66,8 +66,8 @@ A VapourSynth docker image with many AI related features and set up to work simi
 All VapourSynth Editor and X File Explorer settings are saved to the configs folder and not lost when the container restarts.
 
 ### Default Paths
-The vs-plugins folder paths can be adjusted in configs/vapoursynth.conf  
-The vs-scripts folder paths can be adjusted in configs/startup.sh
+The vs-plugins folder path can be adjusted in configs/vapoursynth.conf  
+The vs-scripts folder path can be adjusted in configs/startup.sh
 
 ### Startup Script
 Every time the docker container is run, the script in configs/startup.sh is executed. You can edit it to your needs. For example if you would like the VapourSynth Editor to start automatically, simply add a line that says `vsedit`.
