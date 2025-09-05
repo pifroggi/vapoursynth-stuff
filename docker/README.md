@@ -8,7 +8,7 @@ A VapourSynth docker image with many AI related features and set up to work simi
 * Ubuntu 24.04
 * Python 3.12
 * VapourSynth
-* FFmpeg 7
+* FFmpeg 8
 * PyTorch
 * TensorRT
 * vs-mlrt
@@ -16,7 +16,7 @@ A VapourSynth docker image with many AI related features and set up to work simi
 * VapourSynth Editor *(type vsedit to run)*
 * X File Explorer *(type xfe to run)*
 * Source Plugins: BestSource, FFMS2, L-SMASH-Works
-* Various dependencies like: FFTW, Boost, OpenCV, libjpeg-turbo...
+* Various dependencies like: FFTW, Boost, OpenCV, Vulkan, libplacebo...
 * Plugins in the vs-plugins folder are autoloaded.
 * Scripts in the vs-scripts folder can be simply imported like: `import havfunc`
 * GPU support
@@ -38,14 +38,14 @@ A VapourSynth docker image with many AI related features and set up to work simi
 3. Open CMD or PowerShell in the `docker` folder or navigate into it
 4. Run the docker container
    * __Option 1:__ Download a prebuild image  
-     About 15gb download size and 25gb on disk.  
+     About 10gb download size and 20gb on disk.  
      When you run a docker container for the first time, it will be automatically downloaded.  
      If you don't need GUI support, remove `-e DISPLAY=host.docker.internal:0.0`
        ```
        # CMD:
-       docker run -e DISPLAY=host.docker.internal:0.0 --privileged --gpus all -it -v "%cd%:/workspace/vapoursynth" pifroggi/vapoursynth:2025_07_28
+       docker run -e DISPLAY=host.docker.internal:0.0 --privileged --gpus all -it -v /usr/lib/wsl:/usr/lib/wsl:ro -v "%cd%:/workspace/vapoursynth" pifroggi/vapoursynth:2025_09_05
        # PowerShell:
-       docker run -e DISPLAY=host.docker.internal:0.0 --privileged --gpus all -it -v "${PWD}:/workspace/vapoursynth" pifroggi/vapoursynth:2025_07_28
+       docker run -e DISPLAY=host.docker.internal:0.0 --privileged --gpus all -it -v /usr/lib/wsl:/usr/lib/wsl:ro -v "${PWD}:/workspace/vapoursynth" pifroggi/vapoursynth:2025_09_05
        ```
    * __Option 2:__ Build the image yourself  
      About 30-60 minutes, depending on CPU and internet speed.  
@@ -55,9 +55,9 @@ A VapourSynth docker image with many AI related features and set up to work simi
      Once complete, run it like this. If you don't need GUI support, remove `-e DISPLAY=host.docker.internal:0.0`
        ```
        # CMD:
-       docker run -e DISPLAY=host.docker.internal:0.0 --privileged --gpus all -it -v "%cd%:/workspace/vapoursynth" vapoursynth
+       docker run -e DISPLAY=host.docker.internal:0.0 --privileged --gpus all -it -v /usr/lib/wsl:/usr/lib/wsl:ro -v "%cd%:/workspace/vapoursynth" vapoursynth
        # PowerShell:
-       docker run -e DISPLAY=host.docker.internal:0.0 --privileged --gpus all -it -v "${PWD}:/workspace/vapoursynth" vapoursynth
+       docker run -e DISPLAY=host.docker.internal:0.0 --privileged --gpus all -it -v /usr/lib/wsl:/usr/lib/wsl:ro -v "${PWD}:/workspace/vapoursynth" vapoursynth
        ```
 
 <br />
