@@ -1,7 +1,7 @@
 
 # Ubuntu with tensorrt as base image
 # https://catalog.ngc.nvidia.com/orgs/nvidia/containers/tensorrt/tags
-FROM nvcr.io/nvidia/tensorrt:25.06-py3
+FROM nvcr.io/nvidia/tensorrt:25.08-py3
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Update apt
@@ -16,23 +16,24 @@ RUN apt-get install -y \
 	xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev \
 	checkinstall qt6-base-dev libqt6websockets6-dev libqt6core5compat6-dev\
 	ocl-icd-opencl-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
-    x11-xserver-utils libxcb-cursor0 xfe libfftw3-dev libturbojpeg big-cursor
+    x11-xserver-utils libxcb-cursor0 xfe libfftw3-dev libturbojpeg big-cursor \
+	libgsl-dev
 
-# Upgrade pip and install Python packages
+# Upgrade pip and Install torch
 RUN python -m pip install --upgrade pip && \
-    python -m pip install Cython meson ninja setuptools wheel \
+	python -m pip install --no-cache-dir --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu130
+
+# Install Python packages
+RUN python -m pip install Cython meson ninja setuptools wheel \
 	onnx onnxruntime onnxruntime-gpu \
     opencv-python Pillow tensorboardX pyiqa einops positional_encodings timm PyTurboJPEG
 
-# Install torch
-RUN python -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+# Install mmcv from source with support for 20-50 series gpus (below no longer supported with newest cuda)
+ENV MMCV_WITH_OPS=1 FORCE_CUDA=1 TORCH_CUDA_ARCH_LIST="7.5;8.6;8.9;12.0"
+RUN python -m pip -v install --no-cache-dir --force-reinstall --no-binary mmcv "mmcv>=2.0.0" --ignore-installed PyYAML
 
-# Install mmcv from source with support for 10-50 series gpus
-ENV MMCV_WITH_OPS=1 FORCE_CUDA=1 TORCH_CUDA_ARCH_LIST="6.1;7.5;8.6;8.9;12.0"
-RUN python -m pip install --no-cache-dir --force-reinstall --no-binary mmcv "mmcv>=2.0.0" --ignore-installed PyYAML
-
-# Install FFmpeg7
-RUN add-apt-repository ppa:ubuntuhandbook1/ffmpeg7 && \
+# Install FFmpeg8
+RUN add-apt-repository ppa:ubuntuhandbook1/ffmpeg8 && \
     apt-get update && apt-get install -y ffmpeg libavcodec-dev
 
 # Install zimg
@@ -84,15 +85,15 @@ RUN git clone https://github.com/l-smash/l-smash && \
     cd ../../.. && rm -rf L-SMASH-Works
 
 # Upgrade CMake
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.28.0-rc1/cmake-3.28.0-rc1-linux-x86_64.sh && \
-    chmod +x cmake-3.28.0-rc1-linux-x86_64.sh && \
-    sh cmake-3.28.0-rc1-linux-x86_64.sh --skip-license && \
+RUN wget https://github.com/Kitware/CMake/releases/download/v4.1.1/cmake-4.1.1-linux-x86_64.sh && \
+    chmod +x cmake-4.1.1-linux-x86_64.sh && \
+    sh cmake-4.1.1-linux-x86_64.sh --skip-license && \
     cp /workspace/bin/cmake /usr/bin/cmake && \
     cp /workspace/bin/cmake /usr/lib/x86_64-linux-gnu/cmake && \
     cp /workspace/bin/cmake /usr/local/bin/cmake && \
-    cp -r /workspace/share/cmake-3.28 /usr/local/share/ && \
-    rm cmake-3.28.0-rc1-linux-x86_64.sh && \
-    rm -rf cmake-3.28.0-rc1-linux-x86_64
+    cp -r /workspace/share/cmake-4.1 /usr/local/share/ && \
+    rm cmake-4.1.1-linux-x86_64.sh && \
+    rm -rf cmake-4.1.1-linux-x86_64
 
 # Install vs-mlrt
 RUN git clone --depth 1 https://github.com/AmusementClub/vs-mlrt && \
@@ -118,6 +119,31 @@ RUN git clone https://github.com/YomikoR/VapourSynth-Editor && \
     mv ../build/release-64bit-gcc/vsedit /usr/local/bin/ && \
     mv ../build/release-64bit-gcc/vsedit-* /usr/local/bin/ && \
     cd ../.. && rm -rf VapourSynth-Editor
+
+# Install vulkan with mesa dzn drivers (needed for ubuntu docker with win11 host)
+RUN apt-get install -y --no-install-recommends \
+    libplacebo-dev libvulkan1 vulkan-tools ca-certificates python3-mako python3-yaml \
+    libdrm-dev libexpat1-dev spirv-tools spirv-headers glslang-tools \
+    llvm-18-dev libclang-cpp18-dev libclc-18-dev libllvmspirvlib-18-dev directx-headers-dev
+RUN git clone https://gitlab.freedesktop.org/mesa/mesa.git /mesa \
+ && meson setup /mesa/build /mesa \
+    -Dvulkan-drivers=microsoft-experimental \
+    -Dgallium-drivers= \
+    -Dopengl=false \
+    -Dgles1=disabled \
+    -Dgles2=disabled \
+    -Dglx=disabled \
+    -Degl=disabled \
+    -Dgbm=disabled \
+    -Dplatforms= \
+    -Dvideo-codecs= \
+    -Dbuildtype=release \
+ && meson compile -C /mesa/build \
+ && meson install -C /mesa/build \
+ && rm -rf /mesa
+ENV VK_ICD_FILENAMES=/usr/local/share/vulkan/icd.d/dzn_icd.x86_64.json
+ENV LD_LIBRARY_PATH="/usr/lib/wsl/lib:${LD_LIBRARY_PATH}"
+ENV MESA_VK_IGNORE_CONFORMANCE_WARNING=1
 
 # Clean up unnecessary files
 RUN apt-get autoclean -y && apt-get autoremove -y && apt-get clean -y && \
