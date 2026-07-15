@@ -1,4 +1,4 @@
-# Vapoursynth Portable Installation Tutorial for Windows (WIP)
+# Vapoursynth Portable Installation Tutorial for Windows (R73 or older)
 A short Guide to install Vapoursynth Portable, as well as everything one needs to get started.
 
 <br />
