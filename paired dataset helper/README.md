@@ -1,3 +1,6 @@
+> [!Warning]
+> This script is old. Information and code may be outdated. Use with caution.
+
 # Paired Dataset Helper
 A script to sync and align LQ videos with their HQ counterparts to create paired video or image datasets.  
 Optionally match colors, filter unwanted frames, add degredations, crop and resize.  
