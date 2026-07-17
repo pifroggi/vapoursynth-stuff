@@ -96,8 +96,15 @@ core = vs.core
 # if you don't know what this is, chatgpt can help to explain the basics.
 clip = core.bs.VideoSource(source="path/to/your_video.mp4")
 
+### 3. tag the clip
+# it is important to let vapoursynth know how to interpret the colorimetry information of the clip
+# to do that, choose ONE of the following lines. 709 is usually HD content, 601 NTSC for american SD, and 601 PAL for european SD
+# see the bottom of the resize documentation for a full list of all possible values: http://www.vapoursynth.com/doc/functions/video/resize.html
+clip = clip.std.SetFrameProps(_Matrix=vs.MATRIX_BT709, _Transfer=vs.TRANSFER_BT709, _Primaries=vs.PRIMARIES_BT709)  # Rec.709
+clip = clip.std.SetFrameProps(_Matrix=vs.MATRIX_ST170_M, _Transfer=vs.TRANSFER_BT601, _Primaries=vs.PRIMARIES_ST170_M)  # BT.601 NTSC
+clip = clip.std.SetFrameProps(_Matrix=vs.MATRIX_BT470_BG, _Transfer=vs.TRANSFER_BT601, _Primaries=vs.PRIMARIES_BT470_BG)  # BT.601 PAL
 
-### 3. filter the clip
+### 4. filter the clip
 # you can now filter the clip in various ways.
 # as an example we will do a few format conversions, resize to 1280x720, and add a blur.
 # for more information on each filter, check the official documentation: http://www.vapoursynth.com/doc/functions/video/resize.html
@@ -105,7 +112,7 @@ clip = core.bs.VideoSource(source="path/to/your_video.mp4")
 # it is good common pratice to convert the clip to 16bit first. doing filtering in bit depths higher than 8 reduces banding and other artifacts.
 # this converts the input clip from YUV420P8 to YUV420P16. YUV is the format, 420 the chroma subsampling, and 16 is the bit depth.
 # a list of all available formats can be found here: https://www.vapoursynth.com/doc/pythonreference.html#format
-clip = core.resize.Bilinear(clip, format=vs.YUV420P16)
+clip = core.resize.Point(clip, format=vs.YUV420P16)
 
 # resize the clip to 1280x720
 clip = core.resize.Bilinear(clip, width=1280, height=720)
@@ -113,15 +120,13 @@ clip = core.resize.Bilinear(clip, width=1280, height=720)
 # add a simple box blur to the clip
 clip = core.std.BoxBlur(clip, hradius=10, hpasses=3, vradius=10, vpasses=3)
 
-# some filters require the input clip to be in RGB format. to convert a clip from YUV to RGB, a matrix coefficient is required.
-# old SD sources from DVD/VHS often use 470bg (also known as 601), while modern sources use 709.
-# see the bottom of the resize documentation for a full list: http://www.vapoursynth.com/doc/functions/video/resize.html
-clip = core.resize.Bilinear(clip, format=vs.RGBS, matrix_in_s="709")
+# some filters require the input clip to be in RGB format. this converts to float RGB.
+clip = core.resize.Bilinear(clip, format=vs.RGBS)
 
-# convert from RGB back to YUV
+# convert from RGB back to YUV. a YUV clip always needs a matrix coefficient.
 clip = core.resize.Bilinear(clip, format=vs.YUV420P16, matrix_s="709")
 
-### 4. output the video clip
+### 5. output the video clip
 # first convert it to the output format we want
 clip = core.resize.Bilinear(clip, format=vs.YUV420P8)
 
